@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>作業14</title>
 </head>
 <body>
 
-    <canvas id="myCanvas" width="400" height="300" style="border:1px solid #d3d3d3;">
+    <canvas id="myCanvas" width="400" height="300">
     </canvas>
 
     <script>
@@ -15,17 +14,19 @@
 
         ctx.fillStyle = "blue";
         ctx.fillRect(50, 50, 150, 120); 
-        ctx.lineWidth = 3;
+        
         ctx.strokeStyle = "black";
-        ctx.strokeRect(50, 50, 150, 120); 
+        ctx.lineWidth = 3;
+        ctx.strokeRect(50, 50, 150, 120);
 
         ctx.beginPath();
-        ctx.arc(200, 110, 50, 0, 2 * Math.PI);
+        ctx.arc(170, 110, 50, 0, 2 * Math.PI);
         ctx.fillStyle = "yellow";
         ctx.fill(); 
-        ctx.lineWidth = 5;
+        
         ctx.strokeStyle = "red";
-        ctx.stroke();
+        ctx.lineWidth = 5;
+        ctx.stroke(); 
     </script>
 
 </body>
