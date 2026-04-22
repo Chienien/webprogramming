@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ex26</title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center; /* 讓圖片垂直置中對齊 */
+            justify-content: space-around;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        /* 通用圖片基礎設定 */
+        img {
+            background-color: #ddd; /* 若圖片沒載入時顯示灰色底 */
+        }
+
+        /* 1. 左圖：不失真 + 圓角 18px */
+        .img-left {
+            width: 33%;
+            height: 300px;
+            border-radius: 18px;
+            /* 關鍵：不失真，圖片會自動裁切以填滿空間 */
+            object-fit: cover; 
+        }
+
+        /* 2. 中圖：正圓形 150px */
+        .img-center {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* 變成正圓 */
+            border: 2px solid #555;
+            object-fit: cover;
+        }
+
+        /* 3. 右圖：會失真 (被拉伸) */
+        .img-right {
+            width: 33%;
+            height: 300px;
+            /* 關鍵：預設行為，不加 object-fit 時圖片會被強制壓縮或拉伸 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://picsum.photos/id/1016/600/800" class="img-left" alt="No distortion">
+
+        <img src="https://picsum.photos/id/1015/400/400" class="img-center" alt="Circle">
+
+        <img src="https://picsum.photos/id/1016/600/800" class="img-right" alt="Distortion">
+    </div>
+
+</body>
+</html>
