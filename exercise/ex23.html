@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ex23</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+        body { font-family: 'Roboto', sans-serif; padding: 20px; }
+
+        /* 按鈕樣式 (h22 / R8) */
+        .btn-info {
+            height: 22px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            border: 1px solid #2f2f2f;
+            font-size: 13px;
+            color: #2f2f2f;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 10px;
+            cursor: pointer;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-info:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 圖片樣式 */
+        .content-image {
+            display: block;
+            max-width: 300px;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        /* 資訊描述區塊 (綠色底色) */
+        .description-box {
+            display: none; /* 預設隱藏 */
+            width: 300px;
+            background-color: #a2f2a2; 
+            border: 1px solid #77cc77;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .description-box p { margin: 2px 0; }
+    </style>
+</head>
+<body>
+
+    <button id="infoBtn" class="btn-info" onclick="toggleInfo()">查看資訊</button>
+    <br>
+
+    <img src="https://loremflickr.com/300/200" alt="範例圖片" class="content-image">
+
+    <div id="infoBox" class="description-box">
+        <p>修改日期：2017/10/12</p>
+        <p>類型：JPG</p>
+        <p>大小：466.97 KB</p>
+        <p>路徑：\\designcenter.qnap.com.tw\DesignCenter\PM...</p>
+    </div>
+
+    <script>
+        function toggleInfo() {
+            var box = document.getElementById("infoBox");
+            var btn = document.getElementById("infoBtn");
+
+            // 1. 切換資訊框的顯示/隱藏
+            if (box.style.display === "none" || box.style.display === "") {
+                box.style.display = "block";
+                // 2. 當資訊出現時，按鈕文字變更為「收起資訊」
+                btn.innerText = "收起資訊";
+            } else {
+                box.style.display = "none";
+                // 3. 當資訊隱藏時，按鈕文字變回「查看資訊」
+                btn.innerText = "查看資訊";
+            }
+        }
+    </script>
+
+</body>
+</html>
