@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex27</title>
+    <style>
+        /* 基礎設定 */
+        body {
+            background-color: #3498db; /* 模擬圖片藍色背景 */
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            font-family: sans-serif;
+        }
+
+        .container {
+            background-color: white;
+            width: 100%;
+            max-width: 600px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        /* 頂部綠色區塊 */
+        .header {
+            background-color: #a2d149;
+            height: 100px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        /* 中間內容區容器 */
+        .content-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            /* 預設為橫向並排 (b) 樣式 */
+            flex-direction: row; 
+        }
+
+        .box {
+            background-color: #1abc9c;
+            height: 60px;
+            flex: 1; /* 讓三個方塊均分寬度 */
+            border-radius: 5px;
+        }
+
+        /* 底部灰色區塊容器 */
+        .footer-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-box {
+            background-color: #ecf0f1;
+            height: 80px;
+            flex: 1;
+            border-radius: 5px;
+        }
+
+        /* --- 關鍵重點：媒體查詢 --- */
+        /* 當寬度小於或等於 480px 時，執行以下樣式 (a) */
+        @media screen and (max-width: 480px) {
+            .content-wrapper {
+                /* 改為垂直堆疊 */
+                flex-direction: column; 
+            }
+            
+            .box {
+                /* 堆疊時高度可以調高一點較美觀 */
+                height: 50px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header"></div>
+
+        <div class="content-wrapper">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </div>
+
+        <div class="footer-wrapper">
+            <div class="footer-box"></div>
+            <div class="footer-box"></div>
+        </div>
+    </div>
+
+</body>
+</html>
