@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>JS 事件處理練習</title>
+    <style>
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 150px;
+            text-align: left;
+            font-family: sans-serif;
+        }
+        #textDisplay {
+            font-size: 24px;
+            margin-bottom: 10px;
+            height: 40px; /* 固定高度防止跳動 */
+            color: black;
+        }
+        button {
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="textDisplay">Hello</div>
+        
+        <button 
+            onmouseover="mouseOver()" 
+            onmouseout="mouseOut()" 
+            onclick="mouseClick()">
+            Button
+        </button>
+    </div>
+
+    <script>
+        var text = document.getElementById("textDisplay");
+
+        // 1. 當滑鼠移到按鈕上 (Mouse over)
+        function mouseOver() {
+            text.innerText = "Hello";
+            text.style.color = "magenta"; // 變為洋紅色/粉紫色
+        }
+
+        // 額外補充：當滑鼠移開按鈕時恢復原狀 (選用)
+        function mouseOut() {
+            // 如果題目要求移開要變回黑色，可以在這裡設定
+            // text.style.color = "black";
+        }
+
+        // 2. 當滑鼠點擊按鈕 (Mouse click)
+        function mouseClick() {
+            text.innerText = "Mouse Click";
+            text.style.color = "magenta";
+        }
+    </script>
+
+</body>
+</html>
