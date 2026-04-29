@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>ex33</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #message { margin-top: 15px; font-size: 20px; }
+    </style>
+</head>
+<body>
+
+    <p>Please input a number between 150 and 300:</p>
+
+    <input id="numInput" type="text">
+    
+    <button type="button" onclick="validate()">Submit</button>
+
+    <p id="message"></p>
+
+    <script>
+        function validate() {
+            // 1. 抓取輸入框的值並轉為數字
+            var x = document.getElementById("numInput").value;
+            var msg = document.getElementById("message");
+            
+            // 2. 邏輯判斷
+            // 先檢查是否為空字串或不是數字
+            if (x === "" || isNaN(x)) {
+                msg.innerHTML = "Not a valid number";
+            } 
+            else if (x < 150) {
+                msg.innerHTML = "Value too small";
+            } 
+            else if (x > 300) {
+                msg.innerHTML = "Value too large";
+            } 
+            else {
+                msg.innerHTML = "Input OK";
+            }
+        }
+    </script>
+
+</body>
+</html>
