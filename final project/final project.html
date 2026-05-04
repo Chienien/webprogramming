@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>讓心靈呼吸：大學生壓力檢測站</title>
+    <style>
+        /* 整體設計：柔和色系與簡潔排版 */
+        :root {
+            --primary-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --soft-blue: #e3f2fd;
+            --soft-green: #e8f5e9;
+            --accent-color: #7d9bb9;
+            --text-color: #4a4a4a;
+        }
+
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 卡片式設計 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease; /* Hover 動畫基礎 */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 簡報要求的 Hover 效果 */
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #5a7d9a;
+        }
+
+        /* 壓力測驗：5-POINT LIKERT SCALE */
+        .question {
+            margin-bottom: 30px;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 20px;
+        }
+
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .likert-option {
+            text-align: center;
+            flex: 1;
+        }
+
+        .likert-option input {
+            display: block;
+            margin: 10px auto;
+            cursor: pointer;
+        }
+
+        .likert-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button:hover {
+            background-color: #5a7d9a;
+        }
+
+        #result-area, #resource-area, #method-area {
+            display: none;
+        }
+
+        .result-badge {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .low-stress { background-color: #c8e6c9; color: #2e7d32; }
+        .mid-stress { background-color: #fff9c4; color: #f9a825; }
+        .high-stress { background-color: #ffcdd2; color: #c62828; }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">🌿 大學生壓力檢測站</div>
+        <nav>
+            <a href="#" onclick="showSection('home')">首頁</a>
+            <a href="#" onclick="showSection('quiz')">壓力測驗</a>
+            <a href="#" onclick="showSection('methods')">紓壓方法</a>
+            <a href="#" onclick="showSection('resources')">求助資源</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- 首頁 Home -->
+        <section id="home-section" class="hero">
+            <div class="card">
+                <h1>讓心靈呼吸</h1>
+                <p>用一分鐘，了解你最近的壓力狀態</p>
+                <button onclick="showSection('quiz')">開始檢測</button>
+            </div>
+        </section>
+
+        <!-- 壓力測驗 Quiz -->
+        <section id="quiz-section" style="display:none;">
+            <div class="card">
+                <h2>壓力測驗 (Stress Quiz)</h2>
+                <p>請根據最近一週的情況，選擇最符合的選項：</p>
+                <form id="stressQuiz">
+                    <!-- 題目設計：8題 5點量表 -->
+                    <div id="questions-container"></div>
+                    <button type="button" onclick="calculateScore()">查看測驗結果</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 測驗結果 Result -->
+        <section id="result-area" class="card">
+            <h2>檢測結果</h2>
+            <div id="score-display"></div>
+            <p id="suggestion-text"></p>
+            <button onclick="showSection('methods')">查看紓壓方法</button>
+        </section>
+
+        <!-- 舒壓方法 Methods -->
+        <section id="method-area" class="card">
+            <h2>建議紓壓方法</h2>
+            <ul>
+                <li><strong>深呼吸練習：</strong>每天撥出 5 分鐘進行腹式呼吸。</li>
+                <li><strong>規律運動：</strong>提升血清素，釋放負面情緒。</li>
+                <li><strong>數位排毒：</strong>睡前 30 分鐘不使用電子產品。</li>
+            </ul>
+            <button onclick="showSection('resources')">獲取求助資源</button>
+        </section>
+
+        <!-- 求助資源 Resources -->
+        <section id="resource-area" class="card">
+            <h2>求助資源</h2>
+            <p>如果你感到無法負荷，請尋求專業協助：</p>
+            <ul>
+                <li>學校諮商中心：提供專業心理諮詢。</li>
+                <li>衛福部安心專線：1925 (依舊愛我)。</li>
+                <li>生命線專線：1995。</li>
+            </ul>
+            <a href="https://sdgs.un.org/goals/goal3" target="_blank" style="color: #7d9bb9;">了解更多 SDG 3 資訊</a>
+        </section>
+    </div>
+
+    <a href="#" class="back-to-top">▲</a>
+
+    <script>
+        const questions = [
+            "我常感到睡眠不足或品質不佳",
+            "我覺得課業壓力讓我透不過氣",
+            "我對未來職涯感到焦慮",
+            "我覺得很難平衡學業與私人生活",
+            "我常感到莫名的疲倦或體力不支",
+            "我因為同儕競爭感到壓力",
+            "我覺得最近情緒起伏較大",
+            "我很少有時間可以從事自己喜歡的活動"
+        ];
+
+        // 動態生成題目
+        const container = document.getElementById('questions-container');
+        questions.forEach((q, index) => {
+            const html = `
+                <div class="question">
+                    <p>${index + 1}. ${q}</p>
+                    <div class="likert-scale">
+                        <div class="likert-option"><span class="likert-label">從不</span><input type="radio" name="q${index}" value="1" required></div>
+                        <div class="likert-option"><input type="radio" name="q${index}" value="2"></div>
+                        <div class="likert-option"><input type="radio" name="q${index}" value="3"></div>
+                        <div class="likert-option"><input type="radio" name="q${index}" value="4"></div>
+                        <div class="likert-option"><span class="likert-label">總是</span><input type="radio" name="q${index}" value="5"></div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+
+        function showSection(section) {
+            const sections = ['home-section', 'quiz-section', 'result-area', 'method-area', 'resource-area'];
+            sections.forEach(s => document.getElementById(s).style.display = 'none');
+            
+            if(section === 'home') document.getElementById('home-section').style.display = 'block';
+            if(section === 'quiz') document.getElementById('quiz-section').style.display = 'block';
+            if(section === 'methods') document.getElementById('method-area').style.display = 'block';
+            if(section === 'resources') document.getElementById('resource-area').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function calculateScore() {
+            const form = document.getElementById('stressQuiz');
+            const formData = new FormData(form);
+            let score = 0;
+            let count = 0;
+
+            for (let value of formData.values()) {
+                score += parseInt(value);
+                count++;
+            }
+
+            if (count < questions.length) {
+                alert("請回答所有題目再送出喔！");
+                return;
+            }
+
+            document.getElementById('quiz-section').style.display = 'none';
+            const resultArea = document.getElementById('result-area');
+            resultArea.style.display = 'block';
+
+            let level = "";
+            let className = "";
+            if (score <= 16) {
+                level = "低壓力";
+                className = "low-stress";
+                document.getElementById('suggestion-text').innerText = "太棒了！目前的你心理韌性很強，請繼續保持健康的生活節奏。";
+            } else if (score <= 28) {
+                level = "中壓力";
+                className = "mid-stress";
+                document.getElementById('suggestion-text').innerText = "你最近可能稍微累了一點。試著調整作息，給自己一點喘息空間。";
+            } else {
+                level = "高壓力";
+                className = "high-stress";
+                document.getElementById('suggestion-text').innerText = "警告：目前的壓力值偏高。建議你主動找朋友聊聊，或尋求專業諮商資源。";
+            }
+
+            document.getElementById('score-display').innerHTML = `你的壓力指數：${score} 分 <br> <span class="result-badge ${className}">${level}</span>`;
+        }
+    </script>
+</body>
+</html>
