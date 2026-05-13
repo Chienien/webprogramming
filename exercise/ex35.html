@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ex35</title>
+</head>
+<body>
+
+    <h2>Object Properties</h2>
+    <div id="output"></div>
+
+    <script>
+        // Create object
+        var Person = {
+            firstName: "Tony",
+            lastName: "Lee",
+            age: 50,
+            eyeColor: "Blue"
+        };
+
+        let text = "<h3>Before deleting age:</h3>";
+
+        // List all properties
+        for (let key in Person) {
+            text += key + " : " + Person[key] + "<br>";
+        }
+
+        // Delete age property
+        delete Person.age;
+
+        text += "<h3>After deleting age:</h3>";
+
+        // Print object after deletion
+        for (let key in Person) {
+            text += key + " : " + Person[key] + "<br>";
+        }
+
+        // Show result on webpage
+        document.getElementById("output").innerHTML = text;
+    </script>
+
+</body>
+</html>
