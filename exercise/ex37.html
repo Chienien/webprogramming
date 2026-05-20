@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ex37</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .result { margin-top: 15px; font-size: 18px; color: #333; }
+        .input-group { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Circle Properties Calculator</h2>
+    
+    <div class="input-group">
+        <label for="radiusInput">Please enter the radius: </label>
+        <input id="radiusInput" type="number" value="5" step="any">
+        <button type="button" onclick="calculateCircle()">Calculate</button>
+    </div>
+
+    <div class="result">
+        <p id="circumferenceResult"></p>
+        <p id="areaResult"></p>
+    </div>
+
+    <script>
+        // 主控制函式：負責獲取輸入值並呼叫題目指定的兩個函式
+        function calculateCircle() {
+            var r = parseFloat(document.getElementById("radiusInput").value);
+            
+            if (isNaN(r) || r <= 0) {
+                alert("Please enter a valid positive number!");
+                return;
+            }
+
+            // 呼叫題目要求的函式
+            calcCircumfrence(r);
+            calcArea(r);
+        }
+
+        // 1. 題目要求函式：計算圓周長
+        function calcCircumfrence(radius) {
+            // 2 * pi * r
+            var circumference = 2 * Math.PI * radius;
+            
+            // toFixed(2) 用來四捨五入到小數點後兩位，讓輸出更美觀
+            document.getElementById("circumferenceResult").innerHTML = 
+                "The circumference is " + circumference.toFixed(2);
+        }
+
+        // 2. 題目要求函式：計算圓面積
+        function calcArea(radius) {
+            // pi * r^2
+            var area = Math.PI * Math.pow(radius, 2);
+            
+            document.getElementById("areaResult").innerHTML = 
+                "The area is " + area.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>
