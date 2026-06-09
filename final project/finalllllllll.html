@@ -173,6 +173,7 @@
             .logo i { color: #ff6b6b; animation: breathe 2.5s ease-in-out infinite; }
             
             nav { display: flex !important; }
+            #main-nav { display: none !important; }
             nav a {
                 margin-left: 15px; text-decoration: none; color: #4a5568; font-weight: 700; font-size: 0.95rem;
                 transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 12px;
@@ -182,6 +183,7 @@
             nav a.nav-quiz.active { color: var(--quiz-accent); }
             nav a.nav-methods.active { color: var(--method-accent); }
             nav a.nav-resources.active { color: var(--resource-accent); }
+            nav a.nav-sdg.active { color: var(--sdg-green); }
 
             .mobile-top-logo { display: none !important; }
 
@@ -217,18 +219,19 @@
             nav {
                 position: fixed; bottom: 0; left: 0; width: 100%; height: 68px;
                 background: #ffffff; box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
-                display: grid !important; grid-template-columns: repeat(4, 1fr);
+                display: grid !important; grid-template-columns: repeat(5, 1fr);
                 z-index: 1000; border-top: 1px solid #edf2f7; padding-bottom: env(safe-area-inset-bottom);
             }
             nav a {
                 display: flex; flex-direction: column; align-items: center; justify-content: center;
-                text-decoration: none; color: #718096; font-size: 0.72rem; font-weight: 700;
+                text-decoration: none; color: #718096; font-size: 0.62rem; font-weight: 700;
             }
-            nav a i { font-size: 1.3rem; margin-bottom: 3px; }
+            nav a i { font-size: 1.2rem; margin-bottom: 3px; }
             nav a.nav-home.active { color: var(--home-accent); }
             nav a.nav-quiz.active { color: var(--quiz-accent); }
             nav a.nav-methods.active { color: var(--method-accent); }
             nav a.nav-resources.active { color: var(--resource-accent); }
+            nav a.nav-sdg.active { color: var(--sdg-green); }
 
             .container { margin: 20px auto 60px auto; padding: 0 12px; }
             .card { padding: 25px 18px; border-radius: 20px; margin-bottom: 20px; }
@@ -251,6 +254,42 @@
         }
 
         @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        /* SDG3 Page */
+        .sdg3-stat-row { display: flex; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
+        .sdg3-stat { flex: 1; min-width: 120px; background: white; border-radius: 16px; padding: 20px; text-align: center; border: 1px solid var(--border-color); }
+        .sdg3-stat .num { font-size: 1.9rem; font-weight: 800; color: var(--sdg-green); }
+        .sdg3-stat .label { font-size: 0.78rem; color: #718096; font-weight: 600; margin-top: 4px; }
+        .sdg3-goal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+        .sdg3-goal-item { background: #f2fbf4; border-radius: 16px; padding: 18px; border-left: 4px solid var(--sdg-green); }
+        .sdg3-goal-item h4 { margin: 0 0 8px 0; color: #1e7834; font-size: 0.92rem; }
+        .sdg3-goal-item p { margin: 0; font-size: 0.83rem; color: #4a5568; }
+
+        /* Mood Tracker */
+        .mood-tracker { margin-top: 25px; padding-top: 22px; border-top: 1px solid var(--border-color); }
+        .mood-tracker h4 { font-size: 1rem; font-weight: 700; color: #4a5568; margin-bottom: 14px; }
+        .mood-emojis { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .mood-btn {
+            font-size: 1.8rem; background: #f7fafc; border: 2px solid var(--border-color);
+            border-radius: 14px; padding: 10px 12px; cursor: pointer; color: inherit;
+            transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0;
+        }
+        .mood-btn span { font-size: 0.68rem; font-weight: 700; color: #718096; }
+        .mood-btn:hover, .mood-btn.selected { border-color: var(--home-accent); background: #ebf4ff; transform: scale(1.1); box-shadow: none; }
+        .mood-result { text-align: center; margin-top: 12px; font-size: 0.9rem; font-weight: 700; color: #4a5568; min-height: 22px; }
+
+        /* Breathing Timer */
+        .breath-container { margin-top: 30px; padding-top: 25px; border-top: 1px solid var(--border-color); text-align: center; }
+        .breath-circle {
+            width: 150px; height: 150px; border-radius: 50%;
+            background: radial-gradient(circle, #b2dfdb 0%, #4db6ac 100%);
+            margin: 0 auto 15px auto; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: transform 1s ease; box-shadow: 0 0 30px rgba(77,182,172,0.35);
+        }
+        .breath-circle-phase { font-size: 0.85rem; font-weight: 800; color: white; }
+        .breath-circle-count { font-size: 2.4rem; font-weight: 800; color: white; line-height: 1; }
+        .breath-label { font-size: 0.88rem; color: #718096; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -266,6 +305,7 @@
         <a href="#" onclick="showSection('quiz')" class="nav-quiz"><i class="fa-solid fa-square-poll-horizontal"></i><span>Master Quiz</span></a>
         <a href="#" onclick="showSection('methods')" class="nav-methods"><i class="fa-solid fa-spa"></i><span>Relief</span></a>
         <a href="#" onclick="showSection('resources')" class="nav-resources"><i class="fa-solid fa-hand-holding-hand"></i><span>Resources</span></a>
+        <a href="#" onclick="showSection('sdg')" class="nav-sdg"><i class="fa-solid fa-seedling"></i><span>SDG 3</span></a>
     </nav>
 
     <div class="container">
@@ -287,6 +327,18 @@
                     <p style="margin: 0; font-size: 0.92rem; color: #2f5c3a;">UN Sustainable Development Goal 3 drives robust global health objectives. Because campus pressures run deep, our cross-platform assessment compiles multiple tracking dimensions into one fluid report.</p>
                 </div>
                 
+                <div class="mood-tracker">
+                    <h4><i class="fa-regular fa-face-smile" style="color:var(--home-accent);"></i> How are you feeling today?</h4>
+                    <div class="mood-emojis">
+                        <button class="mood-btn" onclick="logMood(event,'😄','Great')">😄<span>Great</span></button>
+                        <button class="mood-btn" onclick="logMood(event,'😊','Good')">😊<span>Good</span></button>
+                        <button class="mood-btn" onclick="logMood(event,'😐','Okay')">😐<span>Okay</span></button>
+                        <button class="mood-btn" onclick="logMood(event,'😔','Low')">😔<span>Low</span></button>
+                        <button class="mood-btn" onclick="logMood(event,'😰','Stressed')">😰<span>Stressed</span></button>
+                    </div>
+                    <div class="mood-result" id="mood-result"></div>
+                </div>
+
                 <button class="btn-blue" onclick="showSection('quiz')">Take Master Stress Quiz <i class="fa-solid fa-circle-arrow-right"></i></button>
             </div>
         </section>
@@ -338,6 +390,16 @@
                     <li><i class="fa-solid fa-bolt-lightning"></i><div><strong>Kinetic Grounding:</strong> A rapid 20-minute physical walk alters priority mapping away from anxiety feedback chains.</div></li>
                     <li><i class="fa-solid fa-eye-slash"></i><div><strong>Digital Boundaries:</strong> Cutting high-frequency screens 30 minutes before sleep unlocks deep wave restoration.</div></li>
                 </ul>
+                <div class="breath-container">
+                    <h3 style="color:var(--method-accent); margin-bottom: 5px;"><i class="fa-solid fa-circle-dot"></i> Box Breathing Exercise</h3>
+                    <p class="breath-label">A clinically proven technique: 4s Inhale → 4s Hold → 4s Exhale → 4s Hold</p>
+                    <div class="breath-circle" id="breathCircle">
+                        <div class="breath-circle-phase" id="breathPhase">Ready</div>
+                        <div class="breath-circle-count" id="breathCount">—</div>
+                    </div>
+                    <button id="breathBtn" onclick="toggleBreathing()" style="background:var(--method-accent); box-shadow: 0 6px 18px rgba(77,182,172,0.3); margin-top:0;">Start <i class="fa-solid fa-play"></i></button>
+                </div>
+
                 <button style="background:var(--method-accent);" onclick="showSection('resources')">See Local Support Lines <i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </section>
@@ -352,6 +414,47 @@
                     <li><i class="fa-solid fa-handshake-angle"></i><div><strong>Lifeline Association:</strong> Dial 1995.</div></li>
                     <li><i class="fa-solid fa-earth-asia"></i><div><strong>UN SDG 3 – Good Health and Well-Being:</strong> <a href="https://sdgs.un.org/goals/goal3" target="_blank" rel="noopener noreferrer">sdgs.un.org/goals/goal3</a></div></li>
                 </ul>
+            </div>
+        </section>
+
+        <section id="sdg-section" style="display:none;">
+            <div class="card" style="border-top: 6px solid var(--sdg-green);">
+                <div class="sdg-badge"><i class="fa-solid fa-seedling"></i> UN SDG 3 — Good Health & Well-Being</div>
+                <h2 style="color:#1e7834; margin: 20px 0 10px 0;"><i class="fa-solid fa-globe"></i> What is SDG 3?</h2>
+                <p>The United Nations <strong>Sustainable Development Goal 3</strong> aims to ensure healthy lives and promote well-being for all people at all ages. It sets ambitious global health targets to be achieved by 2030 — covering physical health, mental health, and universal healthcare access.</p>
+
+                <div class="sdg3-stat-row">
+                    <div class="sdg3-stat"><div class="num">1 in 5</div><div class="label">College students experience mental health challenges</div></div>
+                    <div class="sdg3-stat"><div class="num">70%</div><div class="label">Cases go untreated due to stigma & lack of access</div></div>
+                    <div class="sdg3-stat"><div class="num">2030</div><div class="label">UN target year for achieving SDG goals globally</div></div>
+                </div>
+
+                <h3 style="color:#1e7834; margin: 30px 0 15px 0;"><i class="fa-solid fa-list-check"></i> Key Targets Related to Mental Health</h3>
+                <div class="sdg3-goal-grid">
+                    <div class="sdg3-goal-item">
+                        <h4><i class="fa-solid fa-brain"></i> Target 3.4</h4>
+                        <p>Reduce premature mortality from non-communicable diseases and promote mental health and well-being for all.</p>
+                    </div>
+                    <div class="sdg3-goal-item">
+                        <h4><i class="fa-solid fa-hospital"></i> Target 3.8</h4>
+                        <p>Achieve universal health coverage with access to quality mental health services without financial hardship.</p>
+                    </div>
+                    <div class="sdg3-goal-item">
+                        <h4><i class="fa-solid fa-pills"></i> Target 3.5</h4>
+                        <p>Strengthen prevention and treatment of substance abuse and harmful alcohol use among young people.</p>
+                    </div>
+                    <div class="sdg3-goal-item">
+                        <h4><i class="fa-solid fa-hands-holding-child"></i> Target 3.d</h4>
+                        <p>Strengthen capacity for early warning, risk reduction, and management of health threats at national level.</p>
+                    </div>
+                </div>
+
+                <div class="sdg-box" style="margin-top: 25px;">
+                    <h4 style="margin: 0 0 10px 0; color:#1e7834;"><i class="fa-solid fa-link"></i> How MindBreath Hub Contributes</h4>
+                    <p style="margin: 0; font-size: 0.92rem; color:#2f5c3a;">MindBreath Hub directly supports SDG Target 3.4 by providing college students with scientifically informed mental health assessment tools, evidence-based stress relief techniques, and direct connections to professional support networks — all in one accessible platform. Early identification through our Master Quiz helps reduce the burden of untreated mental health conditions.</p>
+                </div>
+
+                <button class="btn-blue" onclick="showSection('quiz')" style="margin-top: 25px;">Take the Stress Assessment <i class="fa-solid fa-circle-arrow-right"></i></button>
             </div>
         </section>
 
@@ -384,9 +487,82 @@
             "I get highly irritable or experience extreme mood swings over minor daily hiccups."
         ];
 
+        // ---- Mood Tracker ----
+        function logMood(e, emoji, label) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            e.currentTarget.classList.add('selected');
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            document.getElementById('mood-result').innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--sdg-green);"></i> Logged: ${emoji} ${label} — ${today}`;
+            localStorage.setItem('mindbreath_mood', JSON.stringify({ emoji, label, date: today }));
+        }
+
+        // ---- Box Breathing Timer ----
+        let breathActive = false;
+        let breathTickId = null;
+        let breathTimeoutId = null;
+        const breathPhases = [
+            { name: 'Inhale',  duration: 4, scale: '1.35' },
+            { name: 'Hold',    duration: 4, scale: '1.35' },
+            { name: 'Exhale',  duration: 4, scale: '1'    },
+            { name: 'Hold',    duration: 4, scale: '1'    }
+        ];
+
+        function toggleBreathing() {
+            breathActive ? stopBreathing() : startBreathing();
+        }
+
+        function startBreathing() {
+            breathActive = true;
+            document.getElementById('breathBtn').innerHTML = 'Stop <i class="fa-solid fa-stop"></i>';
+            runBreathPhase(0);
+        }
+
+        function stopBreathing() {
+            if (!breathActive) return;
+            breathActive = false;
+            clearInterval(breathTickId);
+            clearTimeout(breathTimeoutId);
+            const btn = document.getElementById('breathBtn');
+            if (btn) btn.innerHTML = 'Start <i class="fa-solid fa-play"></i>';
+            const circle = document.getElementById('breathCircle');
+            if (circle) { circle.style.transform = 'scale(1)'; }
+            const ph = document.getElementById('breathPhase');
+            if (ph) ph.innerText = 'Ready';
+            const ct = document.getElementById('breathCount');
+            if (ct) ct.innerText = '—';
+        }
+
+        function runBreathPhase(idx) {
+            if (!breathActive) return;
+            const phase = breathPhases[idx % 4];
+            document.getElementById('breathCircle').style.transform = `scale(${phase.scale})`;
+            document.getElementById('breathPhase').innerText = phase.name;
+            let remaining = phase.duration;
+            document.getElementById('breathCount').innerText = remaining;
+            breathTickId = setInterval(() => {
+                if (!breathActive) { clearInterval(breathTickId); return; }
+                remaining--;
+                document.getElementById('breathCount').innerText = remaining;
+                if (remaining <= 0) {
+                    clearInterval(breathTickId);
+                    breathTimeoutId = setTimeout(() => runBreathPhase(idx + 1), 120);
+                }
+            }, 1000);
+        }
+
         window.onload = function() {
             // SYNC DIRECTORY LOGIC: Duplicate nav links to desktop header slot cleanly
             document.getElementById('desktop-nav-placeholder').innerHTML = document.getElementById('main-nav').innerHTML;
+
+            // Restore today's mood if already logged
+            const saved = localStorage.getItem('mindbreath_mood');
+            if (saved) {
+                const { emoji, label, date } = JSON.parse(saved);
+                const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                if (date === today) {
+                    document.getElementById('mood-result').innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--sdg-green);"></i> Logged: ${emoji} ${label} — ${today}`;
+                }
+            }
 
             // Render Phase 1 Questions (Likert System)
             const acadContainer = document.getElementById('academic-container');
@@ -434,10 +610,9 @@
         };
 
         function showSection(section) {
-            const sections = ['home-section', 'quiz-section', 'result-area', 'method-area', 'resource-area'];
+            const sections = ['home-section', 'quiz-section', 'result-area', 'method-area', 'resource-area', 'sdg-section'];
             sections.forEach(s => document.getElementById(s).style.display = 'none');
-            
-            // Sync highlighted active styles on BOTH navbar copies seamlessly
+
             const allNavLinks = document.querySelectorAll('nav a, #desktop-nav-placeholder a');
             allNavLinks.forEach(link => link.classList.remove('active'));
 
@@ -448,7 +623,9 @@
             else if(section === 'quiz') document.getElementById('quiz-section').style.display = 'block';
             else if(section === 'methods') document.getElementById('method-area').style.display = 'block';
             else if(section === 'resources') document.getElementById('resource-area').style.display = 'block';
-            
+            else if(section === 'sdg') document.getElementById('sdg-section').style.display = 'block';
+
+            if (section !== 'methods') stopBreathing();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -474,13 +651,13 @@
             let level = ""; let className = ""; let face = "";
 
             if (rawIntensityPercentage <= 35) {
-                level = "Resilient (Low Stress) [cite: 39]"; className = "low-stress"; face = "<i class='fa-regular fa-face-smile'></i>";
+                level = "Resilient (Low Stress)"; className = "low-stress"; face = "<i class='fa-regular fa-face-smile'></i>";
                 document.getElementById('suggestion-text').innerText = "Excellent control! Your protective traits and lifestyle filters keep you balanced. Keep pacing yourself.";
             } else if (rawIntensityPercentage <= 70) {
-                level = "Moderate Friction [cite: 39]"; className = "mid-stress"; face = "<i class='fa-regular fa-face-meh'></i>";
+                level = "Moderate Friction"; className = "mid-stress"; face = "<i class='fa-regular fa-face-meh'></i>";
                 document.getElementById('suggestion-text').innerText = "Vulnerabilities detected. Your coping capacities are active but fatigued. Dedicate clear boundaries for kinetic recovery loops.";
             } else {
-                level = "Acute Exhaustion Risk [cite: 39]"; className = "high-stress"; face = "<i class='fa-regular fa-face-frown-open'></i>";
+                level = "Acute Exhaustion Risk"; className = "high-stress"; face = "<i class='fa-regular fa-face-frown-open'></i>";
                 document.getElementById('suggestion-text').innerText = "Critical load levels met. This segment generates profound tension. We highly advise setting boundaries and speaking with university medical services.";
             }
 
