@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindBreath Hub | Unified Comprehensive Stress Assessment</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Colorful & Vibrant Pastel Design System */
+        :root {
+            --primary-bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+            
+            /* Section-Specific Vibrant Accents */
+            --sdg-green: #26b34b;
+            --home-accent: #4a90e2;    /* Bright Blue */
+            --quiz-accent: #ff7f50;    /* Coral */
+            --method-accent: #4db6ac;  /* Teal */
+            --resource-accent: #ffb300;/* Amber */
+            
+            /* Theme Phase Colors */
+            --phase-academic: #3182ce;
+            --phase-lifestyle: #ed64a6;
+            --phase-social: #ecc94b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4ecf5 100%);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #2b6cb0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #ff6b6b;
+            animation: breathe 2.5s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        nav a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #f1f5f9;
+        }
+        
+        nav a.nav-home.active { color: var(--home-accent); }
+        nav a.nav-quiz.active { color: var(--quiz-accent); }
+        nav a.nav-methods.active { color: var(--method-accent); }
+        nav a.nav-resources.active { color: var(--resource-accent); }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto 80px auto;
+            padding: 0 20px;
+        }
+
+        /* Card Layout Base */
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(160, 174, 192, 0.08);
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(160, 174, 192, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+        }
+        
+        .card-home::before { background: var(--home-accent); }
+        .card-quiz::before { background: var(--quiz-accent); }
+        .card-method::before { background: var(--method-accent); }
+        .card-resource::before { background: var(--resource-accent); }
+
+        /* Welcome Page Styles */
+        .welcome-hero {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .welcome-hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #2b6cb0, #4db6ac);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        .feature-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        .f-badge {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: white;
+        }
+
+        /* SDG 3 Layout */
+        .sdg-badge {
+            background-color: var(--sdg-green);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(38, 179, 75, 0.3);
+        }
+
+        .sdg-box {
+            background: #f2fbf4;
+            border-left: 5px solid var(--sdg-green);
+            padding: 25px;
+            border-radius: 4px 20px 20px 4px;
+            text-align: left;
+            margin-top: 25px;
+        }
+
+        /* --- Unified Quiz Section Layouts --- */
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .phase-header h3 { margin: 0; font-size: 1.4rem; }
+        .ph-academic { color: var(--phase-academic); border-color: var(--phase-academic); }
+        .ph-lifestyle { color: var(--phase-lifestyle); border-color: var(--phase-lifestyle); }
+        .ph-social { color: var(--phase-social); border-color: var(--phase-social); }
+
+        .question-box {
+            margin-bottom: 25px;
+            background: #fafbfc;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Phase A: 5-Point Likert Grid Layout */
+        .likert-scale {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #edf2f7;
+        }
+        .likert-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        .likert-option input { margin-top: 10px; width: 20px; height: 20px; accent-color: var(--phase-academic); }
+        .likert-label { font-size: 0.8rem; font-weight: 700; color: #718096; }
+
+        /* Phase B: Range Slider Layout */
+        .slider-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #edf2f7;
+        }
+        .slider-container input[type="range"] {
+            width: 100%;
+            accent-color: var(--phase-lifestyle);
+            cursor: pointer;
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #718096;
+            margin-top: 8px;
+        }
+
+        /* Phase C: Checkbox Matrix Layout */
+        .checkbox-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid #edf2f7;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .checkbox-label:hover { background: #fffdf5; border-color: var(--phase-social); }
+        .checkbox-label input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--phase-social); }
+
+        /* Action Buttons */
+        button {
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 30px auto 0 auto;
+        }
+        .btn-blue { background: var(--home-accent); box-shadow: 0 6px 18px rgba(74, 144, 226, 0.3); }
+        .btn-blue:hover { transform: translateY(-2px); background: #357abd; }
+        .btn-coral { background: var(--quiz-accent); box-shadow: 0 6px 18px rgba(255, 127, 80, 0.3); }
+        .btn-coral:hover { transform: translateY(-2px); background: #e06336; }
+
+        /* General Decoration Lists */
+        .decorated-list li {
+            margin-bottom: 15px; padding: 18px; border-radius: 16px;
+            display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+        }
+        .method-list li { background: #e6fffa; border-left: 5px solid var(--method-accent); }
+        .method-list i { color: var(--method-accent); font-size: 1.4rem; }
+        .resource-list li { background: #fffdf5; border-left: 5px solid var(--resource-accent); }
+        .resource-list i { color: var(--resource-accent); font-size: 1.4rem; }
+
+        /* Diagnostic Scores Layout */
+        .result-badge {
+            font-size: 1.5rem; font-weight: 800; padding: 12px 36px;
+            border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin: 20px 0;
+        }
+        .low-stress { background-color: #d1fae5; color: #065f46; border: 2px solid #34d399; }
+        .mid-stress { background-color: #fef3c7; color: #92400e; border: 2px solid #fbbf24; }
+        .high-stress { background-color: #fee2e2; color: #991b1b; border: 2px solid #f87171; }
+
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px; background: #2d3748; color: white;
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.15); z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><i class="fa-solid fa-heart-pulse"></i> MindBreath Hub</div>
+        <nav id="main-nav">
+            <a href="#" onclick="showSection('home')" class="nav-home active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#" onclick="showSection('quiz')" class="nav-quiz"><i class="fa-solid fa-square-poll-horizontal"></i> Master Stress Quiz</a>
+            <a href="#" onclick="showSection('methods')" class="nav-methods"><i class="fa-solid fa-spa"></i> Relief Methods</a>
+            <a href="#" onclick="showSection('resources')" class="nav-resources"><i class="fa-solid fa-hand-holding-hand"></i> Resources</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- 1. Unified Clean Presentation Home Page -->
+        <section id="home-section" class="welcome-hero">
+            <div class="card card-home">
+                <h1>Welcome to MindBreath</h1>
+                <p>An interactive mental health sanctuary designed exclusively for college students to map, track, and build core psychological resilience.</p>
+                
+                <div class="feature-badges">
+                    <span class="f-badge" style="background:var(--phase-academic)">Phase 1: Academic Focus</span>
+                    <span class="f-badge" style="background:var(--phase-lifestyle)">Phase 2: Biological Sliders</span>
+                    <span class="f-badge" style="background:var(--phase-social)">Phase 3: Situational Mapping</span>
+                </div>
+
+                <div class="sdg-box">
+                    <div class="sdg-badge"><i class="fa-solid fa-seedling"></i> SDG 3 Commitment</div>
+                    <h4 style="margin: 15px 0 10px 0; color: #1e7834;">Good Health and Well-being</h4>
+                    <p style="margin: 0; font-size: 0.95rem; color: #2f5c3a;">UN Sustainable Development Goal 3 drives robust global health objectives. Because campus pressures run deep, our full-spectrum assessment compiles three unique psychological testing criteria into one streamlined master report.</p>
+                </div>
+                
+                <button class="btn-blue" onclick="showSection('quiz')">Take Master Stress Quiz <i class="fa-solid fa-circle-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 2. Consolidated Master Quiz (15 Questions Across Three Form Styles) -->
+        <section id="quiz-section" style="display:none;">
+            <div class="card card-quiz">
+                <h2 style="color: var(--quiz-accent); margin-bottom: 5px;"><i class="fa-solid fa-file-signature"></i> 3-in-1 Master Stress Assessment</h2>
+                <p style="color: #718096; margin-bottom: 35px;">Complete all three specialized evaluation phases below for a deep diagnostic calculation of your recent experiences:</p>
+                
+                <form id="masterQuizForm">
+                    
+                    <!-- PHASE 1: ACADEMIC (5-Point Likert Scales) -->
+                    <div class="phase-header ph-academic">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h3>Phase 1: Academic & Career Metrics (5-Point Scale)</h3>
+                    </div>
+                    <div id="academic-container"></div>
+
+                    <!-- PHASE 2: LIFESTYLE (Interactive Track Sliders) -->
+                    <div class="phase-header ph-lifestyle">
+                        <i class="fa-solid fa-bed"></i>
+                        <h3>Phase 2: Lifestyle & Biological Balances (0% - 100% Sliders)</h3>
+                    </div>
+                    <div id="lifestyle-container"></div>
+
+                    <!-- PHASE 3: SOCIAL (Situational Checkboxes) -->
+                    <div class="phase-header ph-social">
+                        <i class="fa-solid fa-comments"></i>
+                        <h3>Phase 3: Social & Situational Incidents (Checkboxes)</h3>
+                    </div>
+                    <div id="social-container"></div>
+
+                    <button type="button" class="btn-coral" onclick="calculateMasterScore()">Analyze Full Assessment <i class="fa-solid fa-calculator"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. Integrated Diagnostics Dashboards -->
+        <section id="result-area" style="display:none;">
+            <div class="card" style="text-align: center;">
+                <h2><i class="fa-solid fa-chart-pie" style="color: #4a90e2;"></i> Your Holistic Stress Metrics</h2>
+                <div id="score-display"></div>
+                <p id="suggestion-text" style="margin: 20px 0; font-size: 1.1rem; color: #4a5568;"></p>
+                <button class="btn-blue" onclick="showSection('methods')">Check Healing Guidelines <i class="fa-solid fa-spa"></i></button>
+            </div>
+        </section>
+
+        <!-- 4. Stress Relief Strategies -->
+        <section id="method-area" style="display:none;">
+            <div class="card card-method">
+                <h2 style="color: var(--method-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i> Practical De-stress Modalities</h2>
+                <ul class="decorated-list method-list">
+                    <li><i class="fa-solid fa-wind"></i><div><strong>Abdominal Breathing:</strong> Inhale for 4 seconds, hold for 4, exhale for 6 to quiet active physiological alarms.</div></li>
+                    <li><i class="fa-solid fa-bolt-lightning"></i><div><strong>Kinetic Grounding:</strong> A rapid 20-minute physical walk alters core focus away from mental feedback loops.</div></li>
+                    <li><i class="fa-solid fa-eye-slash"></i><div><strong>Sensory De-escalation:</strong> Disconnect visual feeds 30 minutes before sleep to facilitate restorative delta waves.</div></li>
+                </ul>
+                <button style="background:var(--method-accent);" onclick="showSection('resources')">See Local Support Lines <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 5. Resources Support -->
+        <section id="resource-area" style="display:none;">
+            <div class="card card-resource">
+                <h2 style="color: var(--resource-accent);"><i class="fa-solid fa-shield-heart"></i> Structural Helpline Infrastructure</h2>
+                <ul class="decorated-list resource-list">
+                    <li><i class="fa-solid fa-graduation-cap"></i><div><strong>Campus Therapy Center:</strong> Confidential psychological processing completely free for students.</div></li>
+                    <li><i class="fa-solid fa-phone-volume"></i><div><strong>Welfare Emergency Hotlines:</strong> Dial 1925 (Continuous 24-Hour Dispatch).</div></li>
+                    <li><i class="fa-solid fa-handshake-angle"></i><div><strong>The Lifeline Platform:</strong> Dial 1995.</div></li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <a href="#" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></a>
+
+    <script>
+        // Content Database: 15 questions distributed perfectly across 3 varied styles
+        const academicQuestions = [
+            "My current assignment and exam volume feels completely unmanageable.",
+            "I struggle significantly to concentrate or process data during long lectures.",
+            "The competitive grading criteria among peers makes me highly anxious.",
+            "I worry constantly about future career paths and interview benchmarks.",
+            "Procrastination or fear of academic failure prevents me from starting tasks."
+        ];
+
+        const lifestyleQuestions = [
+            "Rate your sleep fragmentation level over the last 7 days (Insomnia / Restlessness):",
+            "Rate your daytime exhaustion or physical low-energy blocks during tasks:",
+            "Rate your dependence on quick stimulants like heavy caffeine or emotional sugar eating:",
+            "Rate your struggle to maintain clean order and organization in your room or dormitory:",
+            "Rate how often your physical health is neglected due to urgent deadlines:"
+        ];
+
+        const socialSituations = [
+            "I find myself proactively withdrawing from normal friend circles or group text chats.",
+            "Unexpected textbook expenses or monthly budgeting limits create active financial panic.",
+            "I have experienced recent friction, misunderstandings, or arguments with family/friends.",
+            "I feel like I have nobody to safely express my true academic vulnerabilities to.",
+            "I get highly irritable or experience extreme mood swings over minor daily hiccups."
+        ];
+
+        // Inject expanded questions on page load
+        window.onload = function() {
+            // Render Phase 1 (Likert Scales)
+            const acadContainer = document.getElementById('academic-container');
+            academicQuestions.forEach((q, i) => {
+                acadContainer.innerHTML += `
+                    <div class="question-box">
+                        <div class="question-text"><i class="fa-regular fa-star" style="color:var(--phase-academic)"></i> <span>${i + 1}. ${q}</span></div>
+                        <div class="likert-scale">
+                            ${[1,2,3,4,5].map(v => `
+                                <label class="likert-option">
+                                    <span class="likert-label">${v===1?'Never':v===5?'Always':v}</span>
+                                    <input type="radio" name="acad_${i}" value="${v}" required>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>`;
+            });
+
+            // Render Phase 2 (Sliders)
+            const lifeContainer = document.getElementById('lifestyle-container');
+            lifestyleQuestions.forEach((q, i) => {
+                lifeContainer.innerHTML += `
+                    <div class="question-box">
+                        <div class="question-text"><i class="fa-solid fa-sliders" style="color:var(--phase-lifestyle)"></i> <span>${i + 1}. ${q}</span></div>
+                        <div class="slider-container">
+                            <input type="range" name="life_${i}" min="0" max="100" value="50" oninput="this.nextElementSibling.innerText = this.value + '%'">
+                            <span style="display:block; text-align:center; font-weight:800; font-size:1.2rem; margin-top:5px; color:var(--phase-lifestyle);">50%</span>
+                            <div class="slider-labels"><span>Minimal Impact</span><span>Severe Burnout</span></div>
+                        </div>
+                    </div>`;
+            });
+
+            // Render Phase 3 (Checkboxes)
+            const socContainer = document.getElementById('social-container');
+            let checkHtml = `<div class="checkbox-container">`;
+            socialSituations.forEach((s, i) => {
+                checkHtml += `
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="soc_check" value="20">
+                        <span>${i + 1}. ${s}</span>
+                    </label>`;
+            });
+            checkHtml += `</div>`;
+            socContainer.innerHTML = checkHtml;
+        };
+
+        function showSection(section) {
+            const sections = ['home-section', 'quiz-section', 'result-area', 'method-area', 'resource-area'];
+            sections.forEach(s => document.getElementById(s).style.display = 'none');
+            
+            const navLinks = document.querySelectorAll('#main-nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            if(section === 'home') {
+                document.getElementById('home-section').style.display = 'block';
+                document.querySelector('.nav-home').classList.add('active');
+            } else if(section === 'quiz') {
+                document.getElementById('quiz-section').style.display = 'block';
+                document.querySelector('.nav-quiz').classList.add('active');
+            } else if(section === 'methods') {
+                document.getElementById('method-area').style.display = 'block';
+                document.querySelector('.nav-methods').classList.add('active');
+            } else if(section === 'resources') {
+                document.getElementById('resource-area').style.display = 'block';
+                document.querySelector('.nav-resources').classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function calculateMasterScore() {
+            let totalPointsObtained = 0;
+            
+            // 1. Calculate Academic Phase (Max = 5 items * 5 pts = 25)
+            const checkedRadio = document.querySelectorAll('#masterQuizForm input[type="radio"]:checked');
+            if (checkedRadio.length < academicQuestions.length) {
+                alert("Please answer all Phase 1 questions before submission.");
+                return;
+            }
+            checkedRadio.forEach(r => totalPointsObtained += parseInt(r.value));
+
+            // 2. Calculate Lifestyle Phase (Max = 5 items * 100 max value = 500 converted proportionally to match scoring weight)
+            const sliders = document.querySelectorAll('#masterQuizForm input[type="range"]');
+            let rawSliderSum = 0;
+            sliders.forEach(s => rawSliderSum += parseInt(s.value));
+            // Standardize slider values into a max scale of 25 points to ensure proportional equilibrium
+            let weightedSliderScore = (rawSliderSum / 500) * 25;
+            totalPointsObtained += weightedSliderScore;
+
+            // 3. Calculate Social Phase (Max = 5 items * 5 pts = 25)
+            const checkedBoxes = document.querySelectorAll('#masterQuizForm input[type="checkbox"]:checked');
+            totalPointsObtained += (checkedBoxes.length * 5);
+
+            // Grand Aggregate Calculation (Max possible scale score is 75)
+            let rawIntensityPercentage = (totalPointsObtained / 75) * 100;
+            
+            let level = ""; let className = ""; let face = "";
+
+            if (rawIntensityPercentage <= 35) {
+                level = "Resilient State (Low Stress)"; className = "low-stress"; face = "<i class='fa-regular fa-face-smile'></i>";
+                document.getElementById('suggestion-text').innerText = "Excellent lifestyle homeostasis! Your coping strategies work flawlessly across these varied contexts. Keep doing what you're doing.";
+            } else if (rawIntensityPercentage <= 70) {
+                level = "Moderate Friction Detected"; className = "mid-stress"; face = "<i class='fa-regular fa-face-meh'></i>";
+                document.getElementById('suggestion-text').innerText = "Vulnerabilities present. Your system is managing, but experiencing friction points. Try incorporating task-chunking or dedicated meditation slots.";
+            } else {
+                level = "Acute Exhaustion Warning"; className = "high-stress"; face = "<i class='fa-regular fa-face-frown-open'></i>";
+                document.getElementById('suggestion-text').innerText = "Critical operational load detected. Your current metrics map high exhaustion vulnerability. Please downscale commitments and reach out to university counselors.";
+            }
+
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('score-display').innerHTML = `
+                <div style='font-size:1.1rem; color:#4a5568; font-weight: 600;'>Full Assessment Stress Load Ratio</div>
+                <div style='font-size:3rem; font-weight:800; color:var(--quiz-accent); margin: 5px 0;'>${Math.round(rawIntensityPercentage)}%</div>
+                <span class="result-badge ${className}">${face} ${level}</span>
+            `;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

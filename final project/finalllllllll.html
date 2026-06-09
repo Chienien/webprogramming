@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MindBreath Hub | Cross-Platform Sanctuary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           1. GLOBAL DESIGN SYSTEM & PALETTE 
+           ========================================== */
+        :root {
+            --primary-bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+            
+            --sdg-green: #26b34b;
+            --home-accent: #4a90e2;    
+            --quiz-accent: #ff7f50;    
+            --method-accent: #4db6ac;  
+            --resource-accent: #ffb300;
+            
+            --phase-academic: #3182ce;
+            --phase-lifestyle: #ed64a6;
+            --phase-social: #ecc94b;
+        }
+
+        * {
+            box-shadow: none;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4ecf5 100%);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           2. RESPONSIBLE LAYOUT CONTAINERS 
+           ========================================== */
+        .container {
+            max-width: 850px;
+            margin: 40px auto 100px auto;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(160, 174, 192, 0.08);
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(160, 174, 192, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+        }
+        .card-home::before { background: var(--home-accent); }
+        .card-quiz::before { background: var(--quiz-accent); }
+        .card-method::before { background: var(--method-accent); }
+        .card-resource::before { background: var(--resource-accent); }
+
+        /* Welcome Page Hero Header */
+        .welcome-hero { text-align: center; padding: 20px 0; }
+        .welcome-hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #2b6cb0, #4db6ac);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .feature-badges { display: flex; justify-content: center; gap: 15px; margin: 25px 0; flex-wrap: wrap; }
+        .f-badge { padding: 8px 16px; border-radius: 12px; font-weight: 700; font-size: 0.85rem; color: white; }
+
+        .sdg-badge {
+            background-color: var(--sdg-green); color: white; display: inline-flex;
+            align-items: center; gap: 8px; padding: 10px 20px; border-radius: 14px;
+            font-weight: 700; box-shadow: 0 4px 14px rgba(38, 179, 75, 0.3);
+        }
+        .sdg-box {
+            background: #f2fbf4; border-left: 5px solid var(--sdg-green);
+            padding: 25px; border-radius: 4px 20px 20px 4px; text-align: left; margin-top: 25px;
+        }
+
+        /* ==========================================
+           3. FULL QUIZ LAYOUT ARCHITECTURE
+           ========================================== */
+        .phase-header { display: flex; align-items: center; gap: 12px; margin: 40px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
+        .phase-header h3 { margin: 0; font-size: 1.35rem; }
+        .ph-academic { color: var(--phase-academic); border-color: var(--phase-academic); }
+        .ph-lifestyle { color: var(--phase-lifestyle); border-color: var(--phase-lifestyle); }
+        .ph-social { color: var(--phase-social); border-color: var(--phase-social); }
+
+        .question-box { margin-bottom: 25px; background: #fafbfc; border: 1px solid var(--border-color); padding: 24px; border-radius: 20px; }
+        .question-text { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; display: flex; gap: 10px; }
+
+        /* UI Element Sub-containers */
+        .slider-container { background: white; padding: 20px; border-radius: 12px; border: 1px solid #edf2f7; }
+        .slider-container input[type="range"] { width: 100%; accent-color: var(--phase-lifestyle); cursor: pointer; }
+        .slider-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; color: #718096; margin-top: 8px; }
+
+        .checkbox-container { display: flex; flex-direction: column; gap: 12px; }
+        .checkbox-label {
+            display: flex; align-items: center; gap: 12px; background: white; padding: 14px 20px;
+            border-radius: 12px; border: 1px solid #edf2f7; cursor: pointer; font-weight: 600; transition: all 0.2s;
+        }
+        .checkbox-label:hover { background: #fffdf5; border-color: var(--phase-social); }
+        .checkbox-label input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--phase-social); margin: 0; }
+
+        /* Unified Buttons */
+        button {
+            color: white; border: none; padding: 14px 40px; border-radius: 50px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin: 30px auto 0 auto;
+        }
+        .btn-blue { background: var(--home-accent); box-shadow: 0 6px 18px rgba(74, 144, 226, 0.3); }
+        .btn-blue:hover { transform: translateY(-2px); background: #357abd; }
+        .btn-coral { background: var(--quiz-accent); box-shadow: 0 6px 18px rgba(255, 127, 80, 0.3); }
+        .btn-coral:hover { transform: translateY(-2px); background: #e06336; }
+
+        .decorated-list li { margin-bottom: 15px; padding: 18px; border-radius: 16px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.01); }
+        .method-list li { background: #e6fffa; border-left: 5px solid var(--method-accent); }
+        .method-list i { color: var(--method-accent); font-size: 1.4rem; }
+        .resource-list li { background: #fffdf5; border-left: 5px solid var(--resource-accent); }
+        .resource-list i { color: var(--resource-accent); font-size: 1.4rem; }
+
+        .result-badge { font-size: 1.4rem; font-weight: 800; padding: 12px 34px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin: 20px 0; }
+        .low-stress { background-color: #d1fae5; color: #065f46; border: 2px solid #34d399; }
+        .mid-stress { background-color: #fef3c7; color: #92400e; border: 2px solid #fbbf24; }
+        .high-stress { background-color: #fee2e2; color: #991b1b; border: 2px solid #f87171; }
+
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px; background: #2d3748; color: white;
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.15); z-index: 999; transition: all 0.2s;
+        }
+
+        /* ==========================================
+           4. DESKTOP ONLY MEDIA QUERIES (>= 769px) 
+           ========================================== */
+        @media screen and (min-width: 769px) {
+            header {
+                background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+                padding: 1.2rem 8%; display: flex; justify-content: space-between; align-items: center;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); position: sticky; top: 0; z-index: 1000;
+            }
+            .logo { font-size: 1.4rem; font-weight: 800; color: #2b6cb0; display: flex; align-items: center; gap: 10px; }
+            .logo i { color: #ff6b6b; animation: breathe 2.5s ease-in-out infinite; }
+            
+            nav { display: flex !important; }
+            nav a {
+                margin-left: 15px; text-decoration: none; color: #4a5568; font-weight: 700; font-size: 0.95rem;
+                transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 12px;
+            }
+            nav a:hover, nav a.active { background-color: #f1f5f9; }
+            nav a.nav-home.active { color: var(--home-accent); }
+            nav a.nav-quiz.active { color: var(--quiz-accent); }
+            nav a.nav-methods.active { color: var(--method-accent); }
+            nav a.nav-resources.active { color: var(--resource-accent); }
+
+            .mobile-top-logo { display: none !important; }
+
+            /* Desktop Grid Matrix Layout for Phase 1 */
+            .likert-scale {
+                display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+                background: white; padding: 15px; border-radius: 12px; border: 1px solid #edf2f7;
+            }
+            .likert-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 4px; }
+            .likert-option input { margin-top: 10px; width: 20px; height: 20px; accent-color: var(--phase-academic); }
+            .likert-label { font-size: 0.8rem; font-weight: 700; color: #718096; }
+        }
+
+        /* ==========================================
+           5. MOBILE ONLY MEDIA QUERIES (<= 768px) 
+           ========================================== */
+        @media screen and (max-width: 768px) {
+            body { padding-bottom: 80px; } /* For Bottom App Navigation Bar space */
+            
+            /* Hide Desktop Bar layout elements */
+            header { display: none !important; }
+
+            /* Render App Logo Bar at top */
+            .mobile-top-logo {
+                background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px);
+                padding: 15px; text-align: center; font-size: 1.2rem; font-weight: 800;
+                color: #2b6cb0; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+                position: sticky; top: 0; z-index: 999; display: flex; justify-content: center; align-items: center; gap: 8px;
+            }
+            .mobile-top-logo i { color: #ff6b6b; }
+
+            /* Dock Navigation to Bottom App layout style */
+            nav {
+                position: fixed; bottom: 0; left: 0; width: 100%; height: 68px;
+                background: #ffffff; box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+                display: grid !important; grid-template-columns: repeat(4, 1fr);
+                z-index: 1000; border-top: 1px solid #edf2f7; padding-bottom: env(safe-area-inset-bottom);
+            }
+            nav a {
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                text-decoration: none; color: #718096; font-size: 0.72rem; font-weight: 700;
+            }
+            nav a i { font-size: 1.3rem; margin-bottom: 3px; }
+            nav a.nav-home.active { color: var(--home-accent); }
+            nav a.nav-quiz.active { color: var(--quiz-accent); }
+            nav a.nav-methods.active { color: var(--method-accent); }
+            nav a.nav-resources.active { color: var(--resource-accent); }
+
+            .container { margin: 20px auto 60px auto; padding: 0 12px; }
+            .card { padding: 25px 18px; border-radius: 20px; margin-bottom: 20px; }
+            .welcome-hero h1 { font-size: 2.1rem; }
+            button { width: 100%; padding: 15px; } /* Expand touch buttons full-width */
+
+            .decorated-list li { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+            /* Transform Phase 1 into Responsive Mobile Stack-Buttons layout */
+            .likert-scale { display: flex; flex-direction: column; gap: 8px; }
+            .likert-option {
+                display: flex; align-items: center; justify-content: space-between;
+                background: white; padding: 12px 16px; border-radius: 12px; border: 1px solid #edf2f7;
+                cursor: pointer; font-size: 0.9rem; font-weight: 600;
+            }
+            .likert-option input { width: 22px; height: 22px; margin: 0; accent-color: var(--phase-academic); order: 2; }
+            .likert-label { order: 1; }
+
+            .back-to-top { bottom: 85px; right: 15px; width: 44px; height: 44px; font-size: 0.9rem; }
+        }
+
+        @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><i class="fa-solid fa-heart-pulse"></i> MindBreath Hub</div>
+        <nav id="desktop-nav-placeholder"></nav> </header>
+
+    <div class="mobile-top-logo"><i class="fa-solid fa-heart-pulse"></i> MindBreath Hub</div>
+
+    <nav id="main-nav">
+        <a href="#" onclick="showSection('home')" class="nav-home active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="#" onclick="showSection('quiz')" class="nav-quiz"><i class="fa-solid fa-square-poll-horizontal"></i><span>Master Quiz</span></a>
+        <a href="#" onclick="showSection('methods')" class="nav-methods"><i class="fa-solid fa-spa"></i><span>Relief</span></a>
+        <a href="#" onclick="showSection('resources')" class="nav-resources"><i class="fa-solid fa-hand-holding-hand"></i><span>Resources</span></a>
+    </nav>
+
+    <div class="container">
+        
+        <section id="home-section" class="welcome-hero" style="display:block;">
+            <div class="card card-home">
+                <div class="sdg-badge"><i class="fa-solid fa-seedling"></i> SDG 3 Aligned [cite: 1]</div>
+                <h1>Let Your Mind Breathe</h1> [cite: 4]
+                <p>An interactive mental health sanctuary designed exclusively for college students to map, track, and build core resilience[cite: 5].</p>
+                
+                <div class="feature-badges">
+                    <span class="f-badge" style="background:var(--phase-academic)">Phase 1: Academic [cite: 19]</span>
+                    <span class="f-badge" style="background:var(--phase-lifestyle)">Phase 2: Biological Sliders</span>
+                    <span class="f-badge" style="background:var(--phase-social)">Phase 3: Situational Mapping [cite: 12]</span>
+                </div>
+
+                <div class="sdg-box">
+                    <h4 style="margin: 0 0 10px 0; color: #1e7834;"><i class="fa-solid fa-globe"></i> Good Health & Well-being [cite: 1]</h4>
+                    <p style="margin: 0; font-size: 0.92rem; color: #2f5c3a;">UN Sustainable Development Goal 3 drives robust global health objectives[cite: 1, 122]. Because campus pressures run deep [cite: 8], our cross-platform assessment compiles multiple tracking dimensions into one fluid report[cite: 32].</p>
+                </div>
+                
+                <button class="btn-blue" onclick="showSection('quiz')">Take Master Stress Quiz <i class="fa-solid fa-circle-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <section id="quiz-section" style="display:none;">
+            <div class="card card-quiz">
+                <h2 style="color: var(--quiz-accent); margin-bottom: 5px;"><i class="fa-solid fa-file-signature"></i> 3-in-1 Stress Evaluation [cite: 31]</h2>
+                <p style="color: #718096; font-size: 0.9rem; margin-bottom: 30px;">Complete all phases carefully for a holistic computing of your current operational stress level[cite: 21, 32]:</p>
+                
+                <form id="masterQuizForm">
+                    <div class="phase-header ph-academic">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h3>Phase 1: Academic & Career Vectors (5-Point Scale) [cite: 17, 19, 37]</h3>
+                    </div>
+                    <div id="academic-container"></div>
+
+                    <div class="phase-header ph-lifestyle">
+                        <i class="fa-solid fa-bed"></i>
+                        <h3>Phase 2: Lifestyle & Fatigue Balances (Sliders)</h3>
+                    </div>
+                    <div id="lifestyle-container"></div>
+
+                    <div class="phase-header ph-social">
+                        <i class="fa-solid fa-comments"></i>
+                        <h3>Phase 3: Social & Situational Friction (Checkboxes) [cite: 12]</h3>
+                    </div>
+                    <div id="social-container"></div>
+
+                    <button type="button" class="btn-coral" onclick="calculateMasterScore()">Analyze Full Assessment <i class="fa-solid fa-calculator"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <section id="result-area" style="display:none;">
+            <div class="card" style="text-align: center;">
+                <h2><i class="fa-solid fa-chart-pie" style="color: #4a90e2;"></i> Your Holistic Stress Metrics [cite: 32]</h2>
+                <div id="score-display"></div>
+                <p id="suggestion-text" style="margin: 20px 0; font-size: 1.05rem; color: #4a5568;"></p>
+                <button class="btn-blue" onclick="showSection('methods')">Check Healing Guidelines <i class="fa-solid fa-spa"></i></button>
+            </div>
+        </section>
+
+        <section id="method-area" style="display:none;">
+            <div class="card card-method">
+                <h2 style="color: var(--method-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i> Practical De-stress Modalities [cite: 33]</h2>
+                <p>Based on cognitive-behavioral adaptation rules, add these routines to your week[cite: 27]:</p>
+                <ul class="decorated-list method-list" style="list-style:none; padding:0;">
+                    <li><i class="fa-solid fa-wind"></i><div><strong>Abdominal Breathing:</strong> Inhale 4s, hold 4s, exhale 6s to immediately control acute physiological spikes.</div></li>
+                    <li><i class="fa-solid fa-bolt-lightning"></i><div><strong>Kinetic Grounding:</strong> A rapid 20-minute physical walk alters priority mapping away from anxiety feedback chains.</div></li>
+                    <li><i class="fa-solid fa-eye-slash"></i><div><strong>Digital Boundaries:</strong> Cutting high-frequency screens 30 minutes before sleep unlocks deep wave restoration.</div></li>
+                </ul>
+                <button style="background:var(--method-accent);" onclick="showSection('resources')">See Local Support Lines <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <section id="resource-area" style="display:none;">
+            <div class="card card-resource">
+                <h2 style="color: var(--resource-accent);"><i class="fa-solid fa-shield-heart"></i> Structural Helpline Infrastructure [cite: 34]</h2>
+                <p>Reach out to these secure specialized networks if loads feel unmanageable[cite: 34]:</p>
+                <ul class="resource-list decorated-list" style="list-style:none; padding:0;">
+                    <li><i class="fa-solid fa-graduation-cap"></i><div><strong>Campus Therapy Center:</strong> Completely confidential psychological counseling provided free for students.</div></li>
+                    <li><i class="fa-solid fa-phone-volume"></i><div><strong>Welfare Safety Helpline:</strong> Dial 1925 (Continuous 24-Hour Active Dispatch).</div></li>
+                    <li><i class="fa-solid fa-handshake-angle"></i><div><strong>The Lifeline Platform Desk:</strong> Dial 1995.</div></li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <a href="#" class="back-to-top" title="Scroll to top"><i class="fa-solid fa-arrow-up"></i></a>
+
+    <script>
+        const academicQuestions = [
+            "My current assignment and exam volume feels completely unmanageable. [cite: 19]",
+            "I struggle significantly to concentrate or process data during long lectures.",
+            "The competitive grading criteria among peers makes me highly anxious. [cite: 12]",
+            "I worry constantly about future career paths and interview benchmarks. [cite: 17]",
+            "Procrastination or fear of academic failure prevents me from starting tasks."
+        ];
+
+        const lifestyleQuestions = [
+            "Rate your sleep fragmentation level over the last 7 days (Insomnia / Restlessness):",
+            "Rate your daytime exhaustion or physical low-energy blocks during tasks:",
+            "Rate your dependence on quick stimulants like heavy caffeine or emotional sugar eating:",
+            "Rate your struggle to maintain clean order and organization in your room or dormitory:",
+            "Rate how often your physical health is neglected due to urgent deadlines:"
+        ];
+
+        const socialSituations = [
+            "I find myself proactively withdrawing from normal friend circles or group text chats. [cite: 12]",
+            "Unexpected textbook expenses or monthly budgeting limits create active financial panic. [cite: 16]",
+            "I have experienced recent friction, misunderstandings, or arguments with family/friends.",
+            "I feel like I have nobody to safely express my true academic vulnerabilities to.",
+            "I get highly irritable or experience extreme mood swings over minor daily hiccups."
+        ];
+
+        window.onload = function() {
+            // SYNC DIRECTORY LOGIC: Duplicate nav links to desktop header slot cleanly
+            document.getElementById('desktop-nav-placeholder').innerHTML = document.getElementById('main-nav').innerHTML;
+
+            // Render Phase 1 Questions (Likert System)
+            const acadContainer = document.getElementById('academic-container');
+            academicQuestions.forEach((q, i) => {
+                let optionsHtml = [1,2,3,4,5].map(v => `
+                    <label class="likert-option">
+                        <span class="likert-label">${v===1?'Never':v===5?'Always':v}</span>
+                        <input type="radio" name="acad_${i}" value="${v}" required>
+                    </label>
+                `).join('');
+                
+                acadContainer.innerHTML += `
+                    <div class="question-box">
+                        <div class="question-text"><span>${i + 1}. ${q}</span></div>
+                        <div class="likert-scale">${optionsHtml}</div>
+                    </div>`;
+            });
+
+            // Render Phase 2 Questions (Sliders)
+            const lifeContainer = document.getElementById('lifestyle-container');
+            lifestyleQuestions.forEach((q, i) => {
+                lifeContainer.innerHTML += `
+                    <div class="question-box">
+                        <div class="question-text"><span>${i + 1}. ${q}</span></div>
+                        <div class="slider-container">
+                            <input type="range" name="life_${i}" min="0" max="100" value="50" oninput="this.nextElementSibling.innerText = this.value + '%'">
+                            <span style="display:block; text-align:center; font-weight:800; font-size:1.1rem; margin-top:5px; color:var(--phase-lifestyle);">50%</span>
+                            <div class="slider-labels"><span>Low Impact</span><span>Severe</span></div>
+                        </div>
+                    </div>`;
+            });
+
+            // Render Phase 3 Questions (Checkboxes)
+            const socContainer = document.getElementById('social-container');
+            let checkHtml = `<div class="checkbox-container">`;
+            socialSituations.forEach((s, i) => {
+                checkHtml += `
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="soc_check" value="20">
+                        <span>${i + 1}. ${s}</span>
+                    </label>`;
+            });
+            checkHtml += `</div>`;
+            socContainer.innerHTML = checkHtml;
+        };
+
+        function showSection(section) {
+            const sections = ['home-section', 'quiz-section', 'result-area', 'method-area', 'resource-area'];
+            sections.forEach(s => document.getElementById(s).style.display = 'none');
+            
+            // Sync highlighted active styles on BOTH navbar copies seamlessly
+            const allNavLinks = document.querySelectorAll('nav a, #desktop-nav-placeholder a');
+            allNavLinks.forEach(link => link.classList.remove('active'));
+
+            const targetClass = '.nav-' + section;
+            document.querySelectorAll(targetClass).forEach(el => el.classList.add('active'));
+
+            if(section === 'home') document.getElementById('home-section').style.display = 'block';
+            else if(section === 'quiz') document.getElementById('quiz-section').style.display = 'block';
+            else if(section === 'methods') document.getElementById('method-area').style.display = 'block';
+            else if(section === 'resources') document.getElementById('resource-area').style.display = 'block';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function calculateMasterScore() {
+            let totalPointsObtained = 0;
+            
+            const checkedRadio = document.querySelectorAll('#masterQuizForm input[type="radio"]:checked');
+            if (checkedRadio.length < academicQuestions.length) {
+                alert("Please fill out every Phase 1 item before sending verification parameters.");
+                return;
+            }
+            checkedRadio.forEach(r => totalPointsObtained += parseInt(r.value));
+
+            const sliders = document.querySelectorAll('#masterQuizForm input[type="range"]');
+            let rawSliderSum = 0;
+            sliders.forEach(s => rawSliderSum += parseInt(s.value));
+            totalPointsObtained += ((rawSliderSum / 500) * 25);
+
+            const checkedBoxes = document.querySelectorAll('#masterQuizForm input[type="checkbox"]:checked');
+            totalPointsObtained += (checkedBoxes.length * 5);
+
+            let rawIntensityPercentage = (totalPointsObtained / 75) * 100;
+            let level = ""; let className = ""; let face = "";
+
+            if (rawIntensityPercentage <= 35) {
+                level = "Resilient (Low Stress) [cite: 39]"; className = "low-stress"; face = "<i class='fa-regular fa-face-smile'></i>";
+                document.getElementById('suggestion-text').innerText = "Excellent control! Your protective traits and lifestyle filters keep you balanced. Keep pacing yourself.";
+            } else if (rawIntensityPercentage <= 70) {
+                level = "Moderate Friction [cite: 39]"; className = "mid-stress"; face = "<i class='fa-regular fa-face-meh'></i>";
+                document.getElementById('suggestion-text').innerText = "Vulnerabilities detected. Your coping capacities are active but fatigued. Dedicate clear boundaries for kinetic recovery loops.";
+            } else {
+                level = "Acute Exhaustion Risk [cite: 39]"; className = "high-stress"; face = "<i class='fa-regular fa-face-frown-open'></i>";
+                document.getElementById('suggestion-text').innerText = "Critical load levels met. This segment generates profound tension. We highly advise setting boundaries and speaking with university medical services.";
+            }
+
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('score-display').innerHTML = `
+                <div style='font-size:1rem; color:#4a5568; font-weight:600;'>Stress Intensity Load Ratio</div>
+                <div style='font-size:2.8rem; font-weight:800; color:var(--quiz-accent); margin:5px 0;'>${Math.round(rawIntensityPercentage)}%</div>
+                <span class="result-badge ${className}">${face} ${level}</span>
+            `;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
